@@ -20,7 +20,9 @@ router.get('/gstream/:method', function (req, res) {
         method: req.params.method || defaults.gstream.method,
         sink: req.query.sink || defaults.gstream.sink,
         port: req.query.port || defaults.gstream.port,
-        resolution: req.query.resolution || defaults.gstream.resolution
+        resolution: req.query.resolution || defaults.gstream.resolution,
+        vf: req.query.vf || defaults.vf,
+        hf: req.query.hf || defaults.hf
     };
     if (id === null) {
         res.status(422).send("id is missing");
@@ -38,7 +40,10 @@ router.get('/wowza/:method', function (req, res) {
         host: req.query.host || defaults.wowza.host,
         port: req.query.port || defaults.wowza.port,
         app: req.query.app || defaults.wowza.app,
-        resolution: req.query.resolution || defaults.wowza.resolution
+        resolution: req.query.resolution || defaults.wowza.resolution,
+        vf: req.query.vf || defaults.vf,
+        hf: req.query.hf || defaults.hf
+
     };
     if (id === null) {
         res.status(422).send("id is missing");

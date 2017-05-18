@@ -10,6 +10,9 @@ function connection(socket){
 
         try{
             var request = JSON.parse(message);
+            if(request.error){
+                console.log("Request Error: ", request.error);
+            }
             console.log(request.secret || "No secret");
             console.log(request.method || "No method");
             console.log(request.data || "No data");
