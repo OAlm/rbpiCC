@@ -31,7 +31,7 @@ router.get('/gstream/:method', function (req, res) {
         res.status(200).send("OK!");
     }
 });
-router.get('/wowza/:method', function (req, res) {
+router.get('/wowza/:method', function (req, res, next) {
     var id = req.query.id;
     console.log(req.params.method);
     var data = {
@@ -48,8 +48,40 @@ router.get('/wowza/:method', function (req, res) {
     if (id === null) {
         res.status(422).send("id is missing");
     } else {
-        global.uwsServer.broadcast(JSON.stringify(data));
-        res.status(200).send("OK!");
+        if (global.uwsClientStatus.hasOwnProperty(id)) {
+            global.uwsClientStatus[id].flag = false;
+        } else {
+            global.uwsClientStatus[id] = {flag: false, msg: "no msg"};
+        }
+        console.log("Function : ", global.uwsClients[id]);
+        //global.uwsClients[id].send(JSON.stringify(data));
+        global.uwsServer.clients.forEach(function (client) {
+            if (client === global.uwsClients[id]) {
+                console.log("same"); // Same returned, but this needs testing with multiple clients
+                client.send(JSON.stringify(data));
+            } else {
+                console.log("different");
+            }
+
+        });
+
+        next();
     }
+}, function (req, res) {
+
+    if(!global.uwsClientStatus[req.query.id].flag) {
+        setTimeout(function(){
+            if(!global.uwsClientStatus[req.query.id].flag) {
+                res.status(200).send("No flag was set");
+            }else{
+                res.status(200).send(global.uwsClientStatus[req.query.id]);
+            }
+        },3000); // Delay in client response  3 seconds
+    }else{
+        res.status(200).send(global.uwsClientStatus[req.query.id]);
+    }
+});
+router.get('/pies', function (req, res) {
+    res.status(200).send(Object.keys(global.uwsClients));
 });
 module.exports = router;

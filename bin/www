@@ -22,7 +22,8 @@ app.set('port', port);
 
 var server = http.createServer(app);
 global.uwsServer = new uws.Server({ server:server });
-
+global.uwsClients ={};
+global.uwsClientStatus ={};
 global.uwsServer.on('connection', socket);
 /**
  * Listen on provided port, on all network interfaces.
