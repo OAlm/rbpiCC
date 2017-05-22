@@ -2,16 +2,7 @@ var express = require('express');
 var router = express.Router();
 var uws = require('uws');
 var defaults = require("../defaultSettings.json");
-/* GET users listing. */
-router.get('/test', function (req, res, next) {
 
-    res.status(200).send("OK!");
-});
-
-router.get('/broadcast', function (req, res) {
-    global.uwsServer.broadcast("BROADCAST KEKEKEK!");
-    res.status(200).send("OK!");
-});
 router.get('/gstream/:method', function (req, res) {
     var id = req.query.id;
 
@@ -53,8 +44,8 @@ router.get('/wowza/:method', function (req, res, next) {
         } else {
             global.uwsClientStatus[id] = {flag: false, msg: "no msg"};
         }
-        console.log("Function : ", global.uwsClients[id]);
         //global.uwsClients[id].send(JSON.stringify(data));
+        //TODO check if this works as it supposed to
         global.uwsServer.clients.forEach(function (client) {
             if (client === global.uwsClients[id]) {
                 console.log("same"); // Same returned, but this needs testing with multiple clients
