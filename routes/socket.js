@@ -1,7 +1,9 @@
 /**
  * Created by nikitak on 16.5.2017.
  */
-function connection(socket) {
+function connection(socket,req) {
+    console.log(req);
+    //console.log(req.connection.remoteAddress);
     // You might use location.query.access_token to authenticate or share sessions
     // or socket.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
     socket.on('message', function (message) {
@@ -27,9 +29,9 @@ function connection(socket) {
                     console.log("Error, id pattern mismatch: ", request.id);
                     global.uwsClientStatus[request.id] = {flag: true, msg: "Holo Holo"};
                 }
-                console.log("Secret: ", request.secret || "No secret");
+                /*console.log("Secret: ", request.secret || "No secret");
                 console.log("Method: ", request.method || "No method");
-                console.log("Data: ", request.data || "No data");
+                console.log("Data: ", request.data || "No data");*/
                 console.log(request);
             } catch (e) {
                 console.log("JSON parse Error in socket module");
