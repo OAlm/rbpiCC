@@ -3,42 +3,40 @@ var router = express.Router();
 var uws = require('uws');
 var defaults = require("../defaultSettings.json");
 
-router.get('/gstream/:method', function (req, res) {
-    var id = req.query.id;
 
-    var data = {
-        proto: "gstream",
-        method: req.params.method || defaults.gstream.method,
-        sink: req.query.sink || defaults.gstream.sink,
-        port: req.query.port || defaults.gstream.port,
-        resolution: req.query.resolution || defaults.gstream.resolution,
-        vf: req.query.vf || defaults.vf,
-        hf: req.query.hf || defaults.hf
-    };
-    if (id === null) {
-        res.status(422).send("id is missing");
-    } else {
-        global.uwsServer.broadcast(JSON.stringify(data));
-        res.status(200).send("OK!");
-    }
-});
-router.get('/wowza/:method', function (req, res, next) {
+router.get('/:proto/:method', function (req, res, next) {
     var id = req.query.id;
     console.log(req.params.method);
-    var data = {
-        proto: "wowza",
-        method: req.params.method || defaults.wowza.method,
-        host: req.query.host || defaults.wowza.host,
-        port: req.query.port || defaults.wowza.port,
-        app: req.query.app || defaults.wowza.app,
-        resolution: req.query.resolution || defaults.wowza.resolution,
-        vf: req.query.vf || defaults.vf,
-        hf: req.query.hf || defaults.hf
+    var proto = req.params.proto;
+    var data = null;
+    if (proto === 'wowza') {
+        data = {
+            proto: "wowza",
+            method: req.params.method || defaults.wowza.method,
+            host: req.query.host || defaults.wowza.host,
+            port: req.query.port || defaults.wowza.port,
+            app: req.query.app || defaults.wowza.app,
+            resolution: req.query.resolution || defaults.wowza.resolution,
+            vf: req.query.vf || defaults.vf,
+            hf: req.query.hf || defaults.hf
 
-    };
+        };
+    } else if (proto === 'gstream') {
+         data = {
+            proto: "gstream",
+            method: req.params.method || defaults.gstream.method,
+            sink: req.query.sink || defaults.gstream.sink,
+            port: req.query.port || defaults.gstream.port,
+            resolution: req.query.resolution || defaults.gstream.resolution,
+            vf: req.query.vf || defaults.vf,
+            hf: req.query.hf || defaults.hf
+        };
+    }
     if (id === null) {
         res.status(422).send("id is missing");
-    } else {
+    } else if(data===null){
+        res.status(422).send("Wrong proto");
+    }else {
         if (global.uwsClientStatus.hasOwnProperty(id)) {
             global.uwsClientStatus[id].flag = false;
         } else {
@@ -60,15 +58,15 @@ router.get('/wowza/:method', function (req, res, next) {
     }
 }, function (req, res) {
 
-    if(!global.uwsClientStatus[req.query.id].flag) {
-        setTimeout(function(){
-            if(!global.uwsClientStatus[req.query.id].flag) {
+    if (!global.uwsClientStatus[req.query.id].flag) {
+        setTimeout(function () {
+            if (!global.uwsClientStatus[req.query.id].flag) {
                 res.status(200).send("No flag was set");
-            }else{
+            } else {
                 res.status(200).send(global.uwsClientStatus[req.query.id]);
             }
-        },3000); // Delay in client response  3 seconds
-    }else{
+        }, 3000); // Delay in client response  3 seconds
+    } else {
         res.status(200).send(global.uwsClientStatus[req.query.id]);
     }
 });
