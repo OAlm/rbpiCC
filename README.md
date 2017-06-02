@@ -3,11 +3,14 @@
 `$ git clone *url*`  
 `$ npm install`
 ## 2. API
+
  #### /api/pies
  - Returns ids of connected transmitters
+ 
  #### Main interface api/:proto/:method?id="id"  
  - proto is the protocol/application to be used: wowza or gstream.
  - method is method that is to be called: start, stop or status. Defined on transmitter.
+ 
  #### Additional parameters that main interface accepts
  - Wowza
     * host - ip address of Wowza streaming engine
