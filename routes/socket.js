@@ -40,6 +40,7 @@ function connection(socket,req) {
             }
         }
     );
+    //TODO check if socket does not exist anymore
     socket.send('{"status":"Transmitter Controller ini"}');
 }
 

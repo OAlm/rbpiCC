@@ -1,0 +1,17 @@
+{
+  "wowza": {
+    "method": "status",
+    "host": "000.000.000.000",
+    "port": "0000",
+    "app": "app",
+    "resolution": "000x000"
+  },
+  "gstream": {
+    "method": "status",
+    "sink": "000.000.000.000",
+    "port": "0000",
+    "resolution": "000x000"
+  },
+  "vf": "true",
+  "hf": "false"
+}
