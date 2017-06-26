@@ -40,4 +40,4 @@
 ## 4. Gstreamer    
   
    To view the stream with the gstreamer:  
-   `gst-launch-1.0 -e -v udpsrc port=0 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
+   `gst-launch-1.0 -e -v udpsrc port=0 caps="application/x-rtp" ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
