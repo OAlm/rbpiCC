@@ -39,7 +39,5 @@
   
 ## 4. Gstreamer    
   
-   To view the stream with the gstreamer:
-   `gst-launch-1.0 -e -v udpsrc port=5000 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
-    -e, --eos-on-shutdown Force the end-of-service on sources before shutting the pipeline down
-    -v, --verbose  Output status information and property notifications
+   To view the stream with the gstreamer:  
+   `gst-launch-1.0 -e -v udpsrc port=0 ! application/x-rtp, payload=96 ! rtpjitterbuffer ! rtph264depay ! avdec_h264 ! fpsdisplaysink sync=false text-overlay=false`
