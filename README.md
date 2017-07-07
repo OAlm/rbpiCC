@@ -1,6 +1,9 @@
 # Raspberry pi stream controller
+
+A Remote Control Interface for [video transmitters](https://github.com/OAlm/rbpi)
+
 ## 1. Installation
-`$ git clone git@gitlab.mw.metropolia.fi:sohjoa/rbpiCC.git`  
+`$ git clone git@github.com:OAlm/rbpiCC.git`  
 `$ npm install`
 ## 2. API
 
